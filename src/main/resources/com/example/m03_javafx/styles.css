@@ -2,11 +2,11 @@
     -fx-font-family: "Arial";
     -fx-font-size: 14px;
     -fx-padding: 10;
-    -fx-background-color: #5b4caf;
+    -fx-background-color: #e6e6e6;
 }
 
 .button {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #0b64eb;
     -fx-text-fill: white;
     -fx-padding: 10 20;
     -fx-border-radius: 5;
