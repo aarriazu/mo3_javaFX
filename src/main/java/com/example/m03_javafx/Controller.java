@@ -7,10 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
 
-public class HelloController {
-
-
-    //AÑADIR CONTADOR DE CLICKS POR MINUTO
+public class Controller {
 
     @FXML
     private Button upgradeNormalClickButton;
@@ -25,19 +22,25 @@ public class HelloController {
     private Button addSuperAutoclickButton;
 
     @FXML
-    private Label pointsText;
+    private Label pointsLabel;
 
     @FXML
+    private Label clickLabel;
+
+    @FXML
+    private Label autoclickLabel;
+
+    @FXML
+    private Label clicksPerSecondLabel;
+
     private int points = 0;
-
-    @FXML
     private int clickAmount = 1;
-
-    @FXML
     private int autoclickers = 0;
+    private int clickCount = 0;
+    private int clicksPerSecond = 0;
 
-    @FXML
     private final Timeline autoclickTimeline = new Timeline( new KeyFrame(Duration.seconds(1), event -> autoclick()));
+    private final Timeline clicksPerSecondTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateClicksPerSecond()));
 
     @FXML
     public void initialize() {
@@ -49,14 +52,20 @@ public class HelloController {
         autoclickTimeline.setCycleCount(Timeline.INDEFINITE);
         autoclickTimeline.play();
 
+        clicksPerSecondTimeline.setCycleCount(Timeline.INDEFINITE);
+        clicksPerSecondTimeline.play();
+
         checkButtonVisibility();
-        pointsText.setText(String.valueOf(points));
+        pointsLabel.setText(String.valueOf(points));
+        clickLabel.setText(String.valueOf(clickAmount));
+        autoclickLabel.setText(String.valueOf(autoclickers));
     }
 
     @FXML
     protected void addPoint() {
         points += clickAmount;
-        pointsText.setText(String.valueOf(points));
+        clickCount++;
+        pointsLabel.setText(String.valueOf(points));
         checkButtonVisibility();
     }
 
@@ -86,7 +95,8 @@ public class HelloController {
             points -= cost;
             clickAmount += amount;
         }
-        pointsText.setText(String.valueOf(points));
+        pointsLabel.setText(String.valueOf(points));
+        clickLabel.setText(String.valueOf(clickAmount));
     }
 
     @FXML
@@ -95,14 +105,21 @@ public class HelloController {
             points -= cost;
             autoclickers += amount;
         }
-        pointsText.setText(String.valueOf(points));
+        pointsLabel.setText(String.valueOf(points));
+        autoclickLabel.setText(String.valueOf(autoclickers));
     }
 
     @FXML
     protected void autoclick() {
         points += autoclickers;
-        pointsText.setText(String.valueOf(points));
+        pointsLabel.setText(String.valueOf(points));
         checkButtonVisibility();
+    }
+
+    private void updateClicksPerSecond() {
+        clicksPerSecond = clickCount;
+        clickCount = 0;
+        clicksPerSecondLabel.setText(String.valueOf(clicksPerSecond));
     }
 
     private void checkButtonVisibility() {
